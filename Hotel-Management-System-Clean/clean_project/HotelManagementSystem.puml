@@ -1,0 +1,118 @@
+@startuml HotelManagementSystem
+
+package "I3.Classes" {
+  class UserInfo {
+    - name: String
+    - address: String
+    - phone: String
+    + getters/setters
+  }
+
+  class Room {
+    - roomNo: int
+    - roomType: String
+    - status: String
+    + getters/setters
+  }
+
+  class RoomFare {
+    - roomType: String
+    - fare: double
+  }
+
+  class Booking {
+    - bookingId: int
+    - checkInDateTime: long
+    - checkOutDateTime: long
+    - bookingType: String
+    - person: int
+    - customer: UserInfo
+    - rooms: ArrayList<Room>
+  }
+
+  class Food {
+    - foodId: int
+    - foodName: String
+    - price: double
+  }
+
+  class Item {
+    - itemId: int
+    - itemName: String
+    - price: double
+  }
+
+  class Order {
+    - orderId: int
+    - food: Food
+    - item: Item
+    - quantity: int
+  }
+
+  class ExtraOrders {
+    - orders: ArrayList<Order>
+  }
+
+  class Payment {
+    - paymentId: int
+    - booking: Booking
+    - totalAmount: double
+  }
+
+  Booking --> UserInfo
+  Booking --> Room
+  Payment --> Booking
+  ExtraOrders --> Order
+  Order --> Food
+  Order --> Item
+}
+
+package "I3.DatabaseOperation" {
+  class DataBaseConnection {
+    + getConnection(): Connection
+  }
+
+  class DatabaseOperation {
+    + executeQuery()
+    + executeUpdate()
+  }
+
+  class BookingDb
+  class CustomerDb
+  class RoomDb
+  class FoodDb
+  class ItemDb
+  class OrderDb
+
+  BookingDb --> DataBaseConnection
+  CustomerDb --> DataBaseConnection
+  RoomDb --> DataBaseConnection
+  FoodDb --> DataBaseConnection
+  ItemDb --> DataBaseConnection
+  OrderDb --> DataBaseConnection
+  BookingDb --|> DatabaseOperation
+}
+
+package "I3.TableModel" {
+  class BookingTableModel
+  class CustomCellRenderer
+}
+
+package "I3.UI" {
+  class ControlPanel
+  class CustomerPanel
+  class RoomPanel
+  class FoodPanel
+  class ItemPanel
+  class OrderPanel
+  class PaymentPanel
+
+  ControlPanel --> CustomerPanel
+  ControlPanel --> RoomPanel
+  ControlPanel --> FoodPanel
+  ControlPanel --> ItemPanel
+  ControlPanel --> OrderPanel
+  ControlPanel --> PaymentPanel
+}
+
+@enduml
